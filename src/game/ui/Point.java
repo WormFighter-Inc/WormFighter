@@ -6,7 +6,7 @@ import game.generation.GameStats;
  * LEEGACY CLASS REPLACED BY SPRITE
  * do not use only here for bug fixes
  * 
- * @author wintelh
+ * @author wintleh
  *
  */
 
