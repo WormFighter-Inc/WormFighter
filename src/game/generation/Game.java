@@ -11,6 +11,8 @@ public class Game {
 		
 			DrawGame.drawGame(someMap);
 		}
+		
+		System.out.println("Test new branch");
 	
 	// TODO Flip all instances where it appears the coordinate system is being represented backward EX: (y, x) should be (x, y)
 	// Create mountain ranges - create a line which will be the line of the range, use probability to place the mountains
