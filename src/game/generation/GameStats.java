@@ -14,7 +14,7 @@ public class GameStats {
 	 * Everything in a "normal" setting. 
 	 */
 	public GameStats(){
-		this(20, 20, 10, 5, 5);
+		this(800, 600, 10, 5, 5);
 	}
 	
 	/**

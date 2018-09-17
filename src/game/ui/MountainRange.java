@@ -1,11 +1,13 @@
-package game.generation;
+package game.ui;
 
 import java.util.ArrayList;
+
+import game.generation.GameStats;
 
 public class MountainRange {
 	
 	// Data field for the Point object for the starting point
-	private Point startingPoint;
+	private Sprite startingPoint;
 	private int changeX;
 	private int changeY;
 	private int slopeSign;
@@ -14,8 +16,8 @@ public class MountainRange {
 	private GameStats gameStats;
 	
 	// Data fields holding mountains and reserved points
-	private ArrayList<Point> mountains;
-	private ArrayList<Point> reservedPoints;
+	private ArrayList<Sprite> mountains;
+	private ArrayList<Sprite> reservedPoints;
 	
 	/**
 	 * Mountain ranges can end off screen (don't worry about the ending point, the range will just cut off with the bounds of the map as it is drawn)
@@ -27,7 +29,7 @@ public class MountainRange {
 		gameStats = stats;
 		rangeLength = gameStats.getRangeLength();
 		
-		startingPoint = new Point(gameStats);
+		startingPoint = new Sprite(gameStats);
 		
 		newSlope();
 		
@@ -44,7 +46,7 @@ public class MountainRange {
 	 * @param pointArray An ArrayList for Points
 	 * @param aPoint A Point to add to the ArrayList
 	 */
-	public boolean addToArray(ArrayList<Point> pointArray, Point aPoint) {
+	public boolean addToArray(ArrayList<Sprite> pointArray, Sprite aPoint) {
 		
 		for(int index = 0; index < pointArray.size(); index++) {
 			
@@ -128,9 +130,9 @@ public class MountainRange {
 		reservedPoint(nextMountainX - changeX, currentY);
 	}
 	
-	public Point[] getMountains() {
+	public Sprite[] getMountains() {
 		
-		Point[] mountainsReturn = new Mountain[mountains.size()];
+		Sprite[] mountainsReturn = new Mountain[mountains.size()];
 		
 		for(int index = 0; index < mountainsReturn.length; index++) {
 			mountainsReturn[index] = mountains.get(index);

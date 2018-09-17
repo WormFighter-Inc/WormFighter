@@ -1,13 +1,15 @@
-package game.generation;
+package game.ui;
 
-public class Point{
+import game.generation.GameStats;
+
+public class Point extends Sprite{
 	
 	private int pointXValue;
 	private int pointYValue;
 	
 	private boolean initialized = false;
 	
-	
+	//TODO: Implement these functions into Sprite.java
 	/**
 	 * Creates a random point on a 20 x 20 unit grid. 
 	 * 

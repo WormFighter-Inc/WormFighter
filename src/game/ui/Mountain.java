@@ -1,6 +1,8 @@
-package game.generation;
+package game.ui;
 
-public class Mountain extends Point{
+import game.generation.GameStats;
+
+public class Mountain extends Sprite{
 	
 	/**
 	 * Creates a random mountain point on a 20 x 20 unit grid. 

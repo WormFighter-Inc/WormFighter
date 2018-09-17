@@ -1,4 +1,4 @@
-package game.generation;
+package game.ui;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

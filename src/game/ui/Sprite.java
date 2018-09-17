@@ -1,42 +1,70 @@
-package game.generation;
+package game.ui;
 
+import game.generation.GameStats;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Sprite extends ImageView{
 	//Sprite variables for type and alive status
-	boolean alive = true;
-	final String type;
+	private boolean initialized = false;
+	private final String type;
+	
 	//array to hold value of keys entered left right up down
 	private boolean[] state = {false, false, false, false};
 	
+	//TODO: Implement Functions from point.java
 	
 	Sprite(){
-		type = null;
+		this(new GameStats(800, 600, 0, 0, 0));
 	}
 	
-	//Sprite(int x, int y, int w, int h, String type, Color color){
-		//creates rectangle from specifyed parameters
-	//	super(w, h, color);
-	//
-	//	this.type = type;
-	//	setTranslateX(x);
-	//	setTranslateY(y);
-	//}
-	
+	Sprite(int x, int y, GameStats stats){
+		this.type = null;
+		this.initialized = true;
+		if(isOnMap(stats)) {
+			setTranslateX(x);
+			setTranslateY(y);
+		}
+		
+		//sets width and height to default values
+		setFitHeight(10);
+		setFitWidth(10);
+	}
 
+	Sprite(GameStats stats){
+		//sets width and height to default values
+		setFitHeight(10);
+		setFitWidth(10);
+		
+		// Finds random height and width to be the location of the point
+		setTranslateX(randomXYValue(stats.getWidth()));
+		setTranslateY(randomXYValue(stats.getHeight()));
+			
+		this.type=null;
+		this.initialized = true;
+	}
+	
 	Sprite(int x, int y, int w, int h, String type, Image image){
 		//creates rectangle from specifyed parameters
 		super(image);
 		
+		//set dimensions of sprite
 		setFitHeight(h);
 		setFitWidth(w);
 		
+		this.initialized = true;
 		this.type = type;
 		setTranslateX(x);
 		setTranslateY(y);
 	}
-
+	
+	/**
+	 * Return a string to represent the point. 
+	 */
+	@Override
+	public String toString() {
+		return "(" + getXValue() + ", " + getYValue() + ")";
+	}
 	
 	/**
 	 * Setter for move left boolean
@@ -122,6 +150,56 @@ public class Sprite extends ImageView{
 	 */
 	void moveDown() {
 		setTranslateY(getTranslateY()+5);
+	}
+	
+	/**
+	 * Creates a random value in the range (0, boundingValue). 
+	 * 
+	 * @param boundingValue Upper bound of the possible random values
+	 * @return A value in the range (0, boundingValue)
+	 */
+	private int randomXYValue(int boundingValue) {
+		return (int)(Math.random() * (boundingValue * 1.0));
+	}
+	
+	/**
+	 * Gets the y value of the point. 
+	 * 
+	 * @return Y value of the point
+	 */
+	public int getYValue() {
+		return (int)getTranslateY();
+	}
+	
+	/**
+	 * Gets the x value of the point. 
+	 * 
+	 * @return x value of the point
+	 */
+	public int getXValue() {
+		return (int)getTranslateX();
+	}
+	
+	/**
+	 * Checks if sprite is located on the map
+	 * 
+	 * @param stats game board information
+	 * @return Sprite on map
+	 */
+	public boolean isOnMap(GameStats stats) {
+		
+		if(getXValue() < stats.getWidth() && getXValue() >= 0) {
+			
+			if(getYValue() < stats.getHeight() && getXValue() >= 0) {
+				return true;
+			}
+		}
+		return false;
+				
+	}
+	
+	public boolean checkInitialization() {
+		return initialized;
 	}
 	
 	void shoot() {

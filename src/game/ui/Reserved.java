@@ -1,6 +1,8 @@
-package game.generation;
+package game.ui;
 
-public class Reserved extends Point{
+import game.generation.GameStats;
+
+public class Reserved extends Sprite{
 	
 	/**
 	 * Creates a random reserved point on a 20 x 20 unit grid. 
