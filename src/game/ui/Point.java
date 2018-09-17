@@ -2,6 +2,14 @@ package game.ui;
 
 import game.generation.GameStats;
 
+/**
+ * LEEGACY CLASS REPLACED BY SPRITE
+ * do not use only here for bug fixes
+ * 
+ * @author wintelh
+ *
+ */
+
 public class Point extends Sprite{
 	
 	private int pointXValue;
