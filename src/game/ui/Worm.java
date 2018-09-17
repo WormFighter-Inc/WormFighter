@@ -1,4 +1,4 @@
-package game.generation;
+package game.ui;
 
 import javafx.scene.image.Image;
 

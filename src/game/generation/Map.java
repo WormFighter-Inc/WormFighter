@@ -2,6 +2,9 @@ package game.generation;
 
 import java.util.ArrayList;
 
+import game.ui.Mountain;
+import game.ui.MountainRange;
+
 public class Map {
 	
 	// Data fields
