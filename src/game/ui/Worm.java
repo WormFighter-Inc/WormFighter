@@ -2,21 +2,39 @@ package game.ui;
 
 import javafx.scene.image.Image;
 
-public class Worm extends Sprite{
-	static Image wormyRight = new Image("/game/sprites/worm/Wormy_Right.png");
-	static Image wormyLeft = new Image("/game/sprites/worm/Wormy_Left.png");
+public class Worm extends MoveableSprite{
+	//image files for each worm position are allocated
+	private static Image wormyRight;
+	private static Image wormyLeft;
+	private static Image wormyUp;
+	private static Image wormyDown;
+	
+	//ints for attribute points
+	private int healthPoints;
+	private int attackPoints;
+	private int defencePoints;
 
-	Worm(){
-		super(200,200,50,50,"worm",wormyRight);
+	protected Worm(double x, double y, int spriteWidth, int spriteHeight, Image right, Image left){
+		super(x, y, spriteWidth, spriteHeight, right);
+		wormyRight = right;
+		wormyLeft = left;
 	}
 	
-	void moveLeft() {
-		setImage(wormyLeft);
-		setTranslateX(getTranslateX()-5);
+	/**
+	 * Move left with wormy image
+	 * @param distance pixels to move left
+	 */
+	@Override
+	public void moveLeft(double distance){
+		super.moveLeft(distance, wormyLeft);
 	}
 	
-	void moveRight() {
-		setImage(wormyRight);
-		setTranslateX(getTranslateX()+5);
+	/**
+	 * Move right with wormy image
+	 * 
+	 */
+	@Override
+	public void moveRight(double distance){
+		super.moveRight(distance, wormyRight);
 	}
 }

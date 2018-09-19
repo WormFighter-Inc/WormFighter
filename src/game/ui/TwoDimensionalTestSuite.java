@@ -1,18 +1,21 @@
 package game.ui;
 
+import game.legacy.GameStats;
+import game.legacy.Mountain;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
 	
 	private Pane root = new Pane();
-
+	Worm test = new Worm(0,0,50,50,new Image("/game/sprites/worm/Wormy_Right.png"), new Image("/game/sprites/worm/Wormy_Left.png"));
 	
-	Worm test = new Worm();
+	Worm[] testing = new Worm[50];
 	
 	/**
 	 * Creates the scene with content in it
@@ -20,9 +23,12 @@ public class TwoDimensionalTestSuite extends Application{
 	 * @return pane with conent
 	 */
 	private Parent createContent() {
+		
+		
 		//create size and add test sprite
 		root.setPrefSize(600,  800);
 		root.getChildren().add(test);
+
 		
 		AnimationTimer timer = new AnimationTimer(){
 			@Override
@@ -41,19 +47,19 @@ public class TwoDimensionalTestSuite extends Application{
 		
 		//updating movement based on state of keys pressed and test for hitting wall boundaries
 		if(currentState[0] && test.getTranslateX() > 0) {
-			test.moveLeft();
+			test.moveLeft(5);
 		}
 		
 		if(currentState[1] && test.getTranslateX() < (root.getWidth() - test.getFitWidth())) {
-			test.moveRight();
+			test.moveRight(5);
 		}
 		
 		if(currentState[2] && test.getTranslateY() > -10) {
-			test.moveUp();
+			test.moveUp(5);
 		}
 		
 		if(currentState[3] && test.getTranslateY() < (root.getHeight() - test.getFitHeight() + 14)) {
-			test.moveDown();
+			test.moveDown(5);
 		}
 		
 	}
