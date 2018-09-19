@@ -4,7 +4,7 @@ import game.legacy.GameStats;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Sprite extends ImageView{
+public abstract class Sprite extends ImageView{
 	//Sprite variables for type and alive status
 	private boolean initialized = false;
 	private double xValue;
@@ -14,7 +14,7 @@ public class Sprite extends ImageView{
 	 * Instantiates Sprite with Image at Pos 0, 0, with width 20, height 20
 	 * @param image File to be displayed on screne
 	 */
-	protected Sprite(Image image){
+	Sprite(Image image){
 		this(0, 0, image);
 		
 	}
@@ -25,7 +25,7 @@ public class Sprite extends ImageView{
 	 * @param y starting y pos
 	 * @param image File to be displayed on screne
 	 */
-	protected Sprite(double x, double y, Image image){
+	Sprite(double x, double y, Image image){
 		this(x, y, 20, 20, image);
 	}
 	
@@ -37,7 +37,7 @@ public class Sprite extends ImageView{
 	 * @param spriteHeight height of sprite
 	 * @param image File to be displayed on screne
 	 */
-	protected Sprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
+	Sprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
 		//creates rectangle from specifyed parameters
 		super(image);
 		

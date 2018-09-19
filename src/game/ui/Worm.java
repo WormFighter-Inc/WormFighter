@@ -2,7 +2,7 @@ package game.ui;
 
 import javafx.scene.image.Image;
 
-public class Worm extends MoveableSprite{
+public abstract class Worm extends MoveableSprite{
 	//image files for each worm position are allocated
 	private static Image wormyRight;
 	private static Image wormyLeft;
@@ -14,10 +14,14 @@ public class Worm extends MoveableSprite{
 	private int attackPoints;
 	private int defencePoints;
 
-	protected Worm(double x, double y, int spriteWidth, int spriteHeight, Image right, Image left){
+	Worm(double x, double y, int spriteWidth, int spriteHeight, Image right, Image left, int health, int attack, int defence){
 		super(x, y, spriteWidth, spriteHeight, right);
 		wormyRight = right;
 		wormyLeft = left;
+		
+		healthPoints = health;
+		attackPoints = attack;
+		defencePoints = defence;
 	}
 	
 	/**

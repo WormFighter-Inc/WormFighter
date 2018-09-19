@@ -1,8 +1,6 @@
-package game.generation;
+package game.legacy;
 
 import java.util.Comparator;
-
-import game.ui.MountainRange;
 
 public class MountainRangeComparator implements Comparator<MountainRange>{
 

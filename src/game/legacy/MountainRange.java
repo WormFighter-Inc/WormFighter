@@ -1,10 +1,12 @@
-package game.ui;
+package game.legacy;
 
 import java.util.ArrayList;
 
-import game.generation.GameStats;
+import game.ui.Sprite;
 
 public class MountainRange {
+	
+	//TODO Fix all this shit
 	
 	// Data field for the Point object for the starting point
 	private Sprite startingPoint;
@@ -218,7 +220,7 @@ public class MountainRange {
 	 */
 	private boolean mountainPoint(int xValue, int yValue) {
 		
-		Mountain aMountainPoint = new Mountain(xValue, yValue, gameStats);
+		Mountain aMountainPoint = new Mountain(xValue, yValue);
 		
 		if(aMountainPoint.checkInitialization() && aMountainPoint.isOnMap(gameStats)) {
 			return addToArray(reservedPoints, aMountainPoint);

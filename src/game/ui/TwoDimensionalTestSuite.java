@@ -13,9 +13,8 @@ import javafx.stage.Stage;
 public class TwoDimensionalTestSuite extends Application{
 	
 	private Pane root = new Pane();
-	Worm test = new Worm(0,0,50,50,new Image("/game/sprites/worm/Wormy_Right.png"), new Image("/game/sprites/worm/Wormy_Left.png"));
-	
-	Worm[] testing = new Worm[50];
+	LightWorm test = new LightWorm(0, 0, 50, 50);
+
 	
 	/**
 	 * Creates the scene with content in it
@@ -45,8 +44,11 @@ public class TwoDimensionalTestSuite extends Application{
 	private void update() {
 		boolean[] currentState = test.getState();
 		
+		System.out.printf("%f", test.getTranslateX());
+		System.out.printf(" %f%n" , test.getTranslateY());
+		
 		//updating movement based on state of keys pressed and test for hitting wall boundaries
-		if(currentState[0] && test.getTranslateX() > 0) {
+		if(currentState[0]) {
 			test.moveLeft(5);
 		}
 		

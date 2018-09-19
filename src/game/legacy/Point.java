@@ -1,6 +1,7 @@
-package game.ui;
+package game.legacy;
 
 import game.generation.GameStats;
+import game.ui.Sprite;
 
 /**
  * LEEGACY CLASS REPLACED BY SPRITE

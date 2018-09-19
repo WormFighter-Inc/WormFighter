@@ -1,8 +1,10 @@
-package game.ui;
+package game.legacy;
 
-import game.generation.GameStats;
+import game.ui.Sprite;
 
 public class Reserved extends Sprite{
+	
+	//TODO: Fix this shit too
 	
 	/**
 	 * Creates a random reserved point on a 20 x 20 unit grid. 

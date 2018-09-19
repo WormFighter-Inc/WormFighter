@@ -2,7 +2,7 @@ package game.ui;
 
 import javafx.scene.image.Image;
 
-public class MoveableSprite extends Sprite{
+public abstract class MoveableSprite extends Sprite{
 	//boolean array of movementstats left, right, up, down
 	private boolean[] movementStates = {false, false, false, false};
 	
@@ -10,7 +10,7 @@ public class MoveableSprite extends Sprite{
 	 * Instantiates Moveable Sprite with Image at Pos 0, 0, with width 20, height 20
 	 * @param image File to be displayed on screne
 	 */
-	protected MoveableSprite(Image image) {
+	MoveableSprite(Image image) {
 		super(image);
 	}
 	
@@ -20,7 +20,7 @@ public class MoveableSprite extends Sprite{
 	 * @param y starting y pos
 	 * @param image File to be displayed on screne
 	 */
-	protected MoveableSprite(double x, double y, Image image){
+	MoveableSprite(double x, double y, Image image){
 		super(x, y, image);
 	}
 	
@@ -32,7 +32,7 @@ public class MoveableSprite extends Sprite{
 	 * @param spriteHeight height of sprite
 	 * @param image File to be displayed on screne
 	 */
-	protected MoveableSprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
+	MoveableSprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
 		super(x, y, spriteWidth, spriteHeight, image);
 	}
 

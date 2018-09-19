@@ -1,4 +1,4 @@
-package game.generation;
+package game.legacy;
 
 public class GameStats {
 	
