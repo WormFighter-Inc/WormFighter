@@ -1,5 +1,6 @@
 package game.generation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import game.ui.MoveableSprite;
@@ -11,9 +12,7 @@ public class Map extends Pane{
 	private Player currentPlayer;
 	private boolean[] movementStates = {false, false, false, false};
 	
-	public Map() {
-		
-	}
+	private File premadeMap = new File("Default_Map");
 
 	/**
 	 * Contructs a map with sprites
@@ -153,5 +152,7 @@ public class Map extends Pane{
 			spriteIterator.next().moveUp(5);
 		}
 	}
+	
+	
 	
 }
