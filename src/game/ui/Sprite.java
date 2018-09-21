@@ -1,6 +1,5 @@
 package game.ui;
 
-import game.legacy.GameStats;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

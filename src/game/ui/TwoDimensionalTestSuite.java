@@ -1,33 +1,33 @@
 package game.ui;
 
-import game.legacy.GameStats;
-import game.legacy.Mountain;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import game.generation.Map;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
-	
-	private Pane root = new Pane();
-	LightWorm test = new LightWorm(0, 0, 50, 50);
 
+	MoveableSprite test = new LightWorm(0, 0, 50, 50);
+	LightWorm test2 = new LightWorm(100, 100, 50, 50);
+	
+	ArrayList<MoveableSprite> myArray = new ArrayList<MoveableSprite>(Arrays.asList(test, test2));
+	Map testMap = new Map(myArray, new Player(275, 375, 50, 50));
+	
 	
 	/**
 	 * Creates the scene with content in it
 	 * 
 	 * @return pane with conent
 	 */
-	private Parent createContent() {
-		
-		
+	private Parent createContent() {	
 		//create size and add test sprite
-		root.setPrefSize(600,  800);
-		root.getChildren().add(test);
-
+		testMap.setPrefSize(600,  800);
 		
 		AnimationTimer timer = new AnimationTimer(){
 			@Override
@@ -38,30 +38,27 @@ public class TwoDimensionalTestSuite extends Application{
 		
 		timer.start();
 		
-		return root;
+		return testMap;
 	}
 	
 	private void update() {
-		boolean[] currentState = test.getState();
-		
-		System.out.printf("%f", test.getTranslateX());
-		System.out.printf(" %f%n" , test.getTranslateY());
-		
+		boolean[] currentState = testMap.getState();
+
 		//updating movement based on state of keys pressed and test for hitting wall boundaries
 		if(currentState[0]) {
-			test.moveLeft(5);
+			testMap.moveLeft();
 		}
 		
-		if(currentState[1] && test.getTranslateX() < (root.getWidth() - test.getFitWidth())) {
-			test.moveRight(5);
+		if(currentState[1]) {
+			testMap.moveRight();
 		}
 		
-		if(currentState[2] && test.getTranslateY() > -10) {
-			test.moveUp(5);
+		if(currentState[2]) {
+			testMap.moveUp();
 		}
 		
-		if(currentState[3] && test.getTranslateY() < (root.getHeight() - test.getFitHeight() + 14)) {
-			test.moveDown(5);
+		if(currentState[3]) {
+			testMap.moveDown();
 		}
 		
 	}
@@ -73,16 +70,16 @@ public class TwoDimensionalTestSuite extends Application{
 			//TODO: Create booleans for capture, Handle in main update
 			switch(e.getCode()) {
 				case A:
-					test.setMoveLeft(true);
+					testMap.setMoveLeft(true);
 					break;
 				case S:
-					test.setMoveDown(true);
+					testMap.setMoveDown(true);
 					break;
 				case D:
-					test.setMoveRight(true);
+					testMap.setMoveRight(true);
 					break;
 				case W:
-					test.setMoveUp(true);
+					testMap.setMoveUp(true);
 					break;
 				default:
 					break;
@@ -96,16 +93,16 @@ public class TwoDimensionalTestSuite extends Application{
 		mainScene.setOnKeyReleased(e ->{
 			switch(e.getCode()) {
 				case A:
-					test.setMoveLeft(false);
+					testMap.setMoveLeft(false);
 					break;
 				case S:
-					test.setMoveDown(false);
+					testMap.setMoveDown(false);
 					break;
 				case D:
-					test.setMoveRight(false);
+					testMap.setMoveRight(false);
 					break;
 				case W:
-					test.setMoveUp(false);
+					testMap.setMoveUp(false);
 					break;
 				default:
 					break;
@@ -118,6 +115,7 @@ public class TwoDimensionalTestSuite extends Application{
 	}
 	
 	public static void main(String[] args) {
+		
 		launch(args);
 	}
 

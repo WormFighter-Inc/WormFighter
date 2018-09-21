@@ -98,7 +98,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * Move sprite left specifyed distance
 	 * @param distance pixels to move left
 	 */
-	void moveLeft(double distance) {
+	public void moveLeft(double distance) {
 		setTranslateX(getTranslateX()- distance);
 	}
 	
@@ -106,7 +106,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * Move sprite right specifyed distance
 	 * @param distance pixels to move right
 	 */
-	void moveRight(double distance) {
+	public void moveRight(double distance) {
 		setTranslateX(getTranslateX()+ distance);
 	}
 	
@@ -114,7 +114,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * Move sprite up specifyed distance
 	 * @param distance pixels to move up
 	 */
-	void moveUp(double distance) {
+	public void moveUp(double distance) {
 		setTranslateY(getTranslateY()- distance);
 	}
 
@@ -122,7 +122,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * Move sprite down specifyed distance
 	 * @param distance pixels to move down
 	 */
-	void moveDown(double distance) {
+	public void moveDown(double distance) {
 		setTranslateY(getTranslateY()+ distance);
 	}
 	
@@ -131,7 +131,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * @param distance pixels to move left
 	 * @param spriteArt new image
 	 */
-	void moveLeft(double distance, Image spriteArt) {
+	public void moveLeft(double distance, Image spriteArt) {
 		setImage(spriteArt);
 		setTranslateX(getTranslateX()- distance);
 	}
@@ -141,7 +141,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * @param distance pixels to move right
 	 * @param spriteArt new image
 	 */
-	void moveRight(double distance, Image spriteArt) {
+	public void moveRight(double distance, Image spriteArt) {
 		setImage(spriteArt);
 		setTranslateX(getTranslateX()+ distance);
 	}
@@ -151,7 +151,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * @param distance pixels to move up
 	 * @param spriteArt new image
 	 */
-	void moveUp(double distance, Image spriteArt) {
+	public void moveUp(double distance, Image spriteArt) {
 		setImage(spriteArt);
 		setTranslateY(getTranslateY()- distance);
 	}
@@ -161,7 +161,7 @@ public abstract class MoveableSprite extends Sprite{
 	 * @param distance pixels to move down
 	 * @param spriteArt new image
 	 */
-	void moveDown(double distance, Image spriteArt) {
+	public void moveDown(double distance, Image spriteArt) {
 		setImage(spriteArt);
 		setTranslateY(getTranslateY()+ distance);
 	}
