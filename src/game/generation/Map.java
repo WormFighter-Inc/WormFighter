@@ -3,6 +3,9 @@ package game.generation;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
+
+import game.ui.Mountain;
 import game.ui.MoveableSprite;
 import game.ui.Player;
 import javafx.scene.layout.Pane;
@@ -12,7 +15,17 @@ public class Map extends Pane{
 	private Player currentPlayer;
 	private boolean[] movementStates = {false, false, false, false};
 	
-	private File premadeMap = new File("Default_Map");
+	//TODO
+	private double mapSizeX = 2000;
+	private double mapSizeY = 2000;
+	
+	private File premadeMap;
+	
+	public Map(String mapFileName) {
+		importMap(mapFileName);
+		
+		
+	}
 
 	/**
 	 * Contructs a map with sprites
@@ -153,6 +166,87 @@ public class Map extends Pane{
 		}
 	}
 	
+	public void importMap(String mapName) {
+		int lineIndex = 0;
+		
+		premadeMap = new File(mapName);
+		
+		try(Scanner mapInput = new Scanner(premadeMap)){
+			
+			while(mapInput.hasNextLine()) {
+				
+				double objectX = mapInput.nextDouble();
+				double objectY = mapInput.nextDouble();
+				
+				if(objectX < 0 || objectY < 0) {
+					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "/n/tX or Y coordinate is negative");
+				}
+				else if(objectX > mapSizeX || objectY > mapSizeY) {
+					
+				}
+				else {
+					
+					String type = mapInput.next();
+					
+					if(type == "mountain") {
+						sprites.add(new Mountain(objectX, objectY));
+					}
+					else if(type == "water") {
+						// Water class not created or implemented yet
+						//sprites.add(new Water(objectX, objectY));
+					}
+					else {
+						System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);
+					}
+					
+					lineIndex++;
+				}
+				
+			}
+		}
+		catch(Exception FileNotFoundException) {
+			System.out.println(FileNotFoundException.getMessage());
+		}
+	}
 	
+	/**
+	 * Debugging method. 
+	 * Calls the toString method for every sprite in the array sprites. 
+	 * 
+	 */
+	private void printSprites() {
+		
+		for(int i = 0; i < sprites.size(); i++) {
+			
+			System.out.println(sprites.get(i).toString());
+		}
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

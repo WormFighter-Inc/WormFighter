@@ -10,4 +10,8 @@ public class Mountain extends ObjectSprite{
 		super(x, y, mountainSprite);
 	}
 	
+
+	public String toString() {
+		return "(" + this.getX() + ", " + this.getY() + ")/tMountain";
+	}
 }
