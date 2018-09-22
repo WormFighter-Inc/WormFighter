@@ -17,14 +17,20 @@ public class Map extends Pane{
 	private boolean[] movementStates = {false, false, false, false};
 	
 	// TODO Implement these for real
-	private double mapSizeX = 2000;
-	private double mapSizeY = 2000;
+	private double mapSizeX = 10000;
+	private double mapSizeY = 10000;
 	
 	//private File premadeMap;
 	InputStream mapFile;
 	
+	/**
+	 * Debugging constructor. 
+	 * Allows easy access to the importMap method. 
+	 * 
+	 * @param mapFileName
+	 */
 	public Map(String mapFileName) {
-		mapFile = Map.class.getResourceAsStream(mapFileName);
+		mapFile = Map.class.getResourceAsStream("/game/maps/" + mapFileName);
 		importMap();
 		
 		printSprites();
