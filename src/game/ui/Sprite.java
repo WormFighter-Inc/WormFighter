@@ -11,7 +11,7 @@ public abstract class Sprite extends ImageView{
 	
 	/**
 	 * Instantiates Sprite with Image at Pos 0, 0, with width 20, height 20
-	 * @param image File to be displayed on screne
+	 * @param image File to be displayed on screen
 	 */
 	Sprite(Image image){
 		this(0, 0, image);
@@ -19,25 +19,25 @@ public abstract class Sprite extends ImageView{
 	}
 	
 	/**
-	 * Instatiates Sprite with Image at Pos, X, Y, and width 20, height 20
+	 * Instantiates Sprite with Image at Pos, X, Y, and width 20, height 20
 	 * @param x starting x pos
 	 * @param y starting y pos
-	 * @param image File to be displayed on screne
+	 * @param image File to be displayed on screen
 	 */
 	Sprite(double x, double y, Image image){
 		this(x, y, 20, 20, image);
 	}
 	
 	/**
-	 * Instatiates Sprite with Image at Pos, X, Y, and width spriteWidth, height spriteHeight
+	 * Instantiates Sprite with Image at Pos, X, Y, and width spriteWidth, height spriteHeight
 	 * @param x starting x pos
 	 * @param y starting y pos
 	 * @param spriteWidth width of sprite
 	 * @param spriteHeight height of sprite
-	 * @param image File to be displayed on screne
+	 * @param image File to be displayed on screen
 	 */
 	Sprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
-		//creates rectangle from specifyed parameters
+		//creates rectangle from specified parameters
 		super(image);
 		
 		//set dimensions of sprite
@@ -61,7 +61,7 @@ public abstract class Sprite extends ImageView{
 	}
 	
 	/**
-	 * Gets the y position on screne 
+	 * Gets the y position on screen 
 	 * 
 	 * @return Y value of the sprite
 	 */
@@ -70,7 +70,7 @@ public abstract class Sprite extends ImageView{
 	}
 	
 	/**
-	 * Gets the x position on screne 
+	 * Gets the x position on screen 
 	 * 
 	 * @return x value of the sprite
 	 */

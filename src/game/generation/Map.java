@@ -1,6 +1,7 @@
 package game.generation;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -15,16 +16,18 @@ public class Map extends Pane{
 	private Player currentPlayer;
 	private boolean[] movementStates = {false, false, false, false};
 	
-	//TODO
+	// TODO Implement these for real
 	private double mapSizeX = 2000;
 	private double mapSizeY = 2000;
 	
-	private File premadeMap;
+	//private File premadeMap;
+	InputStream mapFile;
 	
 	public Map(String mapFileName) {
-		importMap(mapFileName);
+		mapFile = Map.class.getResourceAsStream(mapFileName);
+		importMap();
 		
-		
+		printSprites();
 	}
 
 	/**
@@ -166,45 +169,67 @@ public class Map extends Pane{
 		}
 	}
 	
-	public void importMap(String mapName) {
-		int lineIndex = 0;
+	/**
+	 * Reads in a file of objects (mountain or water), saves these to the map. 
+	 * 
+	 * @param mapName Name of the map file to read in
+	 */
+	public void importMap() {
+		// Keeps track of the line - used to report errors
+		// Starts at one because the lines are not zero indexed
+		int lineIndex = 1;
 		
-		premadeMap = new File(mapName);
-		
-		try(Scanner mapInput = new Scanner(premadeMap)){
+		// Open the file mapName
+		try(Scanner mapInput = new Scanner(mapFile)){
 			
+			// Repeat until there is no next line
 			while(mapInput.hasNextLine()) {
 				
-				double objectX = mapInput.nextDouble();
-				double objectY = mapInput.nextDouble();
+				// Get the x and y value from the file
+				double objectX = mapInput.nextDouble() * 1.0;
+				double objectY = mapInput.nextDouble() * 1.0;
 				
+				// Read in the string - indicates what type of object to create
+				String type = mapInput.next();
+				
+				// Checks for end case
+				if(type.equals("end")) {
+					return;
+				}
+				
+				// Test for coordinates being out of bounds
 				if(objectX < 0 || objectY < 0) {
-					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "/n/tX or Y coordinate is negative");
+					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is negative");
 				}
 				else if(objectX > mapSizeX || objectY > mapSizeY) {
-					
+					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is greater than the max value");
 				}
+				// Coordinates are within the bounds
 				else {
 					
-					String type = mapInput.next();
-					
-					if(type == "mountain") {
+					// Mountain case
+					if(type.equals("mountain")) {
 						sprites.add(new Mountain(objectX, objectY));
 					}
-					else if(type == "water") {
-						// Water class not created or implemented yet
+					// Water case
+					else if(type.equals("water")) {
+						// TODO Water class not created or implemented yet
 						//sprites.add(new Water(objectX, objectY));
 					}
+					// No recognizable type
 					else {
 						System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);
 					}
-					
-					lineIndex++;
 				}
-				
+				// Move cursor to the next line
+				mapInput.nextLine();
+				// Increase lineIndex - on to the next line
+				lineIndex++;
 			}
 		}
+		// Catch if the file cannot be found
 		catch(Exception FileNotFoundException) {
+			// Print error message
 			System.out.println(FileNotFoundException.getMessage());
 		}
 	}
@@ -216,6 +241,7 @@ public class Map extends Pane{
 	 */
 	private void printSprites() {
 		
+		// Loop through sprites and prints the string from toString
 		for(int i = 0; i < sprites.size(); i++) {
 			
 			System.out.println(sprites.get(i).toString());
@@ -223,30 +249,3 @@ public class Map extends Pane{
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
