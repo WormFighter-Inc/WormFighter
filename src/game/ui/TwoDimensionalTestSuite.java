@@ -13,10 +13,11 @@ import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
 
-	MoveableSprite test = new LightWorm(0, 0, 50, 50);
+	LightWorm test = new LightWorm(0, 0, 50, 50);
 	LightWorm test2 = new LightWorm(100, 100, 50, 50);
+	MoveableSprite testArt = new MoveableSprite(0, 0, 3840, 2160, new Image("game/maps/Test Art.png"));
 	
-	ArrayList<MoveableSprite> myArray = new ArrayList<MoveableSprite>(Arrays.asList(test, test2));
+	ArrayList<MoveableSprite> myArray = new ArrayList<MoveableSprite>(Arrays.asList(testArt, test, test2));
 	Map testMap = new Map(myArray, new Player(275, 375, 50, 50));
 	
 	

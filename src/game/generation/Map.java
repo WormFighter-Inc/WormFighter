@@ -51,6 +51,7 @@ public class Map extends Pane{
 	 * @param sprites Array list filled with sprites to add to map
 	 */
 	public Map(ArrayList<MoveableSprite> sprites, Player player){
+		
 		for(int i = 0; i < sprites.size(); i ++) {
 			this.getChildren().add(sprites.get(i));
 			this.sprites = sprites;
@@ -212,7 +213,7 @@ public class Map extends Pane{
 	}
 	
 	/**
-	 * Reads in a file of objects (mountain or water), saves these to the map. 
+	 * Reads in a file of objects (mountain, water, player), saves these to the map. 
 	 * 
 	 * @param mapName Name of the map file to read in
 	 */
