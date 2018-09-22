@@ -116,6 +116,11 @@ public class TwoDimensionalTestSuite extends Application{
 	
 	public static void main(String[] args) {
 		
+		/*
+		new Map("Default_Map");
+		System.exit(0);
+		*/
+		
 		launch(args);
 	}
 

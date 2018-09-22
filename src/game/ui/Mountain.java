@@ -11,7 +11,9 @@ public class Mountain extends ObjectSprite{
 	}
 	
 	/**
+	 * Creates a formatted string to represent this object. 
 	 * 
+	 * @return A formatted string containing the coordinates of the mountain and a label
 	 */
 	@Override
 	public String toString() {

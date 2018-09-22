@@ -1,6 +1,5 @@
 package game.generation;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,35 +8,46 @@ import java.util.Scanner;
 import game.ui.Mountain;
 import game.ui.MoveableSprite;
 import game.ui.Player;
+import game.utility.Coordinate;
 import javafx.scene.layout.Pane;
 
 public class Map extends Pane{
+	
 	private ArrayList<MoveableSprite> sprites = new ArrayList<MoveableSprite>();
 	private Player currentPlayer;
 	private boolean[] movementStates = {false, false, false, false};
 	
 	// TODO Implement these for real
-	private double mapSizeX = 10000;
-	private double mapSizeY = 10000;
+	private Coordinate screenSize;
+	private Coordinate mapSize;
 	
-	//private File premadeMap;
+	// Used to read in a map from a file
 	InputStream mapFile;
+	
+	// Data field for the player's starting position, initialized by reading in the point from mapFile
+	private Coordinate playerStartingPosition;
 	
 	/**
 	 * Debugging constructor. 
 	 * Allows easy access to the importMap method. 
 	 * 
-	 * @param mapFileName
+	 * @param mapFileName Name of the file which holds the map data
 	 */
 	public Map(String mapFileName) {
+		mapSize = new Coordinate(10000, 10000);
+		screenSize = new Coordinate(500, 500);
+		
 		mapFile = Map.class.getResourceAsStream("/game/maps/" + mapFileName);
 		importMap();
 		
-		printSprites();
+		System.out.println("Map relative: ");
+		printMapRelativeSprites();
+		System.out.println("\nScreen relative: ");
+		printScreenRelativeSprites();
 	}
 
 	/**
-	 * Contructs a map with sprites
+	 * Constructs a map with sprites
 	 * @param sprites Array list filled with sprites to add to map
 	 */
 	public Map(ArrayList<MoveableSprite> sprites, Player player){
@@ -176,6 +186,32 @@ public class Map extends Pane{
 	}
 	
 	/**
+	 * Converts a map relative coordinate to a screen relative point. 
+	 * 
+	 * @param mapRelative A map relative coordinate to be converted 
+	 * @return The screen relative coordinate
+	 */
+	public Coordinate mapToScreenConversion(Coordinate mapRelative) {
+		return mapToScreenConversion(mapRelative, playerStartingPosition, screenSize);
+	}
+	
+	/**
+	 * Converts a map relative coordinate to a screen relative point. 
+	 * 
+	 * @param mapRelative A map relative coordinate to be converted
+	 * @param playerStarting A coordinate representing the player starting location
+	 * @param screenSize A coordinate representing the size of the screen
+	 * @return The screen relative coordinate
+	 */
+	public Coordinate mapToScreenConversion(Coordinate mapRelative, Coordinate playerStarting, Coordinate screenSize) {
+	
+		double screenRelativeX = mapRelative.getX() - playerStarting.getX() - (screenSize.getX() / 2.0);
+		double screenRelativeY = mapRelative.getY() - playerStarting.getY() - (screenSize.getY() / 2.0);
+		
+		return new Coordinate(screenRelativeX, screenRelativeY);
+	}
+	
+	/**
 	 * Reads in a file of objects (mountain or water), saves these to the map. 
 	 * 
 	 * @param mapName Name of the map file to read in
@@ -207,7 +243,7 @@ public class Map extends Pane{
 				if(objectX < 0 || objectY < 0) {
 					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is negative");
 				}
-				else if(objectX > mapSizeX || objectY > mapSizeY) {
+				else if(objectX > mapSize.getX() || objectY > mapSize.getY()) {
 					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is greater than the max value");
 				}
 				// Coordinates are within the bounds
@@ -221,6 +257,10 @@ public class Map extends Pane{
 					else if(type.equals("water")) {
 						// TODO Water class not created or implemented yet
 						//sprites.add(new Water(objectX, objectY));
+					}
+					// Player case, sets the player's starting point
+					else if(type.equals("player")) {
+						playerStartingPosition = new Coordinate(objectX, objectY);
 					}
 					// No recognizable type
 					else {
@@ -242,10 +282,31 @@ public class Map extends Pane{
 	
 	/**
 	 * Debugging method. 
+	 * Converts every sprite to screen relative, then 
+	 * calls the toString method for every sprite in the array sprites. 
+	 * 
+	 */
+	private void printScreenRelativeSprites() {
+		
+		Coordinate screenRelativePlayer = mapToScreenConversion(playerStartingPosition);
+		
+		System.out.printf("(%5.0f, %5.0f)\tPlayer\n", screenRelativePlayer.getX(), screenRelativePlayer.getY());
+		
+		// Loop through sprites and prints the string from to String
+		for(int i = 0; i < sprites.size(); i++) {
+			
+			System.out.println(mapToScreenConversion(new Coordinate(sprites.get(i).getXValue(), sprites.get(i).getYValue())).toString());
+		}
+	}
+	
+	/**
+	 * Debugging method. 
 	 * Calls the toString method for every sprite in the array sprites. 
 	 * 
 	 */
-	private void printSprites() {
+	private void printMapRelativeSprites() {
+		
+		System.out.printf("(%5.0f, %5.0f)\tPlayer\n", playerStartingPosition.getX(), playerStartingPosition.getY());
 		
 		// Loop through sprites and prints the string from toString
 		for(int i = 0; i < sprites.size(); i++) {
