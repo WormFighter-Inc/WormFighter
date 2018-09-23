@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import game.ui.HUD;
 import game.ui.Mountain;
 import game.ui.MoveableSprite;
 import game.ui.Player;
@@ -50,7 +51,9 @@ public class Map extends Pane{
 	 * Constructs a map with sprites
 	 * @param sprites Array list filled with sprites to add to map
 	 */
-	public Map(ArrayList<MoveableSprite> sprites, Player player){
+	public Map(ArrayList<MoveableSprite> sprites, Player player, double gameHeight){
+		
+		HUD healthBar = new HUD(gameHeight);
 		
 		for(int i = 0; i < sprites.size(); i ++) {
 			this.getChildren().add(sprites.get(i));
@@ -58,6 +61,8 @@ public class Map extends Pane{
 		}
 		currentPlayer = player;
 		this.getChildren().add(player);
+		
+		this.getChildren().add(healthBar.getHUD());
 	}
 	
 	/**

@@ -12,13 +12,19 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
+	
+	double screenWidth = 1920;
+	double screenHeight = 1060;
+	
+	int playerWidth = 50;
+	int playerHeight = 50;
 
 	LightWorm test = new LightWorm(0, 0, 50, 50);
 	LightWorm test2 = new LightWorm(100, 100, 50, 50);
 	MoveableSprite testArt = new MoveableSprite(0, 0, 3840, 2160, new Image("game/maps/Test Art.png"));
 	
 	ArrayList<MoveableSprite> myArray = new ArrayList<MoveableSprite>(Arrays.asList(testArt, test, test2));
-	Map testMap = new Map(myArray, new Player(275, 375, 50, 50));
+	Map testMap = new Map(myArray, new Player((screenWidth / 2.0) - (playerWidth / 2.0), (screenHeight / 2.0) - (playerHeight / 2.0), playerWidth, playerHeight), screenHeight);
 	
 	
 	/**
@@ -28,7 +34,7 @@ public class TwoDimensionalTestSuite extends Application{
 	 */
 	private Parent createContent() {	
 		//create size and add test sprite
-		testMap.setPrefSize(600,  800);
+		testMap.setPrefSize(screenWidth, screenHeight);
 		
 		AnimationTimer timer = new AnimationTimer(){
 			@Override
