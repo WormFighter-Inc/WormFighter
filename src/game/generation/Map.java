@@ -233,10 +233,6 @@ public class Map extends Pane{
 			// Repeat until there is no next line
 			while(mapInput.hasNextLine()) {
 				
-				// Get the x and y value from the file
-				double objectX = mapInput.nextDouble() * 1.0;
-				double objectY = mapInput.nextDouble() * 1.0;
-				
 				// Read in the string - indicates what type of object to create
 				String type = mapInput.next();
 				
@@ -244,6 +240,10 @@ public class Map extends Pane{
 				if(type.equals("end")) {
 					return;
 				}
+				
+				// Get the x and y value from the file
+				double objectX = mapInput.nextDouble() * 1.0;
+				double objectY = mapInput.nextDouble() * 1.0;
 				
 				// Test for coordinates being out of bounds
 				if(objectX < 0 || objectY < 0) {
@@ -255,22 +255,29 @@ public class Map extends Pane{
 				// Coordinates are within the bounds
 				else {
 					
-					// Mountain case
-					if(type.equals("mountain")) {
-						sprites.add(new Mountain(objectX, objectY));
-					}
-					// Water case
-					else if(type.equals("water")) {
-						// TODO Water class not created or implemented yet
-						//sprites.add(new Water(objectX, objectY));
-					}
-					// Player case, sets the player's starting point
-					else if(type.equals("player")) {
-						playerStartingPosition = new Coordinate(objectX, objectY);
-					}
-					// No recognizable type
-					else {
-						System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);
+					// Determine which type of object is being read in
+					switch(type) {
+					
+						case "player":
+							// Set the player's starting position
+							playerStartingPosition = new Coordinate(objectX, objectY);
+							break;
+					
+						case "mountain":
+							// Add a mountain sprite
+							sprites.add(new Mountain(objectX, objectY));
+							break;
+							
+						case "water":
+							// Add a water sprite
+							// TODO Water class not created or implemented yet
+							//sprites.add(new Water(objectX, objectY));
+							break;
+							
+						default:
+							// Unexpected type - Error
+							System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);
+							break;
 					}
 				}
 				// Move cursor to the next line
