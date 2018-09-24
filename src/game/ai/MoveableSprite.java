@@ -1,4 +1,4 @@
-package game.ui;
+package game.ai;
 
 import javafx.scene.image.Image;
 
@@ -10,7 +10,7 @@ public class MoveableSprite extends Sprite{
 	 * Instantiates Moveable Sprite with Image at Pos 0, 0, with width 20, height 20
 	 * @param image File to be displayed on screne
 	 */
-	MoveableSprite(Image image) {
+	public MoveableSprite(Image image) {
 		super(image);
 	}
 	
@@ -20,7 +20,7 @@ public class MoveableSprite extends Sprite{
 	 * @param y starting y pos
 	 * @param image File to be displayed on screen
 	 */
-	MoveableSprite(double x, double y, Image image){
+	public MoveableSprite(double x, double y, Image image){
 		super(x, y, image);
 	}
 	
@@ -32,7 +32,7 @@ public class MoveableSprite extends Sprite{
 	 * @param spriteHeight height of sprite
 	 * @param image File to be displayed on screne
 	 */
-	MoveableSprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
+	public MoveableSprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
 		super(x, y, spriteWidth, spriteHeight, image);
 	}
 

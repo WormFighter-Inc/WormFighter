@@ -1,5 +1,6 @@
 package game.ui;
 
+import game.ai.ObjectSprite;
 import javafx.scene.image.Image;
 
 public class Mountain extends ObjectSprite{

@@ -3,7 +3,10 @@ package game.ui;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import game.ai.MoveableSprite;
+import game.ai.worm.LightWorm;
 import game.generation.Map;
+import game.player.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -13,15 +16,15 @@ import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
 	
-	double screenWidth = 1920;
-	double screenHeight = 1060;
+	double screenWidth = 1000;
+	double screenHeight = 600;
 	
 	int playerWidth = 50;
 	int playerHeight = 50;
 
 	LightWorm test = new LightWorm(0, 0, 50, 50);
 	LightWorm test2 = new LightWorm(100, 100, 50, 50);
-	MoveableSprite testArt = new MoveableSprite(0, 0, 3840, 2160, new Image("game/maps/Test Art.png"));
+	MoveableSprite testArt = new MoveableSprite(0, 0, 3840, 2160, new Image("game/generation/maps/Test Art.png"));
 	
 	ArrayList<MoveableSprite> myArray = new ArrayList<MoveableSprite>(Arrays.asList(testArt, test, test2));
 	Map testMap = new Map(myArray, new Player((screenWidth / 2.0) - (playerWidth / 2.0), (screenHeight / 2.0) - (playerHeight / 2.0), playerWidth, playerHeight), screenHeight);
@@ -49,6 +52,7 @@ public class TwoDimensionalTestSuite extends Application{
 	}
 	
 	private void update() {
+		
 		boolean[] currentState = testMap.getState();
 
 		//updating movement based on state of keys pressed and test for hitting wall boundaries

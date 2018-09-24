@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import game.ai.MoveableSprite;
+import game.player.Player;
 import game.ui.HUD;
 import game.ui.Mountain;
-import game.ui.MoveableSprite;
-import game.ui.Player;
 import game.utility.Coordinate;
 import javafx.scene.layout.Pane;
 

@@ -1,4 +1,4 @@
-package game.ui;
+package game.ai;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,7 +13,7 @@ public abstract class Sprite extends ImageView{
 	 * Instantiates Sprite with Image at Pos 0, 0, with width 20, height 20
 	 * @param image File to be displayed on screen
 	 */
-	Sprite(Image image){
+	public Sprite(Image image){
 		this(0, 0, image);
 		
 	}
@@ -24,7 +24,7 @@ public abstract class Sprite extends ImageView{
 	 * @param y starting y pos
 	 * @param image File to be displayed on screen
 	 */
-	Sprite(double x, double y, Image image){
+	public Sprite(double x, double y, Image image){
 		this(x, y, 20, 20, image);
 	}
 	
@@ -36,7 +36,7 @@ public abstract class Sprite extends ImageView{
 	 * @param spriteHeight height of sprite
 	 * @param image File to be displayed on screen
 	 */
-	Sprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
+	public Sprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
 		//creates rectangle from specified parameters
 		super(image);
 		
@@ -85,12 +85,6 @@ public abstract class Sprite extends ImageView{
 	 */
 	public boolean isOnMap() {
 		//TODO: Implement Method	
-		return false;
-	}
-	
-	
-	public boolean updatePosition(double x, double y) {
-		//TODO: Implement Method
 		return false;
 	}
 	
