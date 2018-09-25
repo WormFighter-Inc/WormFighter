@@ -170,4 +170,16 @@ public class GameScreen extends Pane{
 	public void moveDown() {
 		currentMap.moveSpritesUp();
 	}
+	
+	/**
+	 * 
+	 * @return current player
+	 */
+	public Player getPlayer() {
+		return currentPlayer;
+	}
+	
+	public ArrayList<MoveableSprite> getSprites(){
+		return currentMap.getSprites();
+	}
 }

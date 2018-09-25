@@ -1,18 +1,11 @@
 package game.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import game.ai.MoveableSprite;
-import game.ai.worm.LightWorm;
-import game.generation.Map;
 import game.player.Player;
 import game.utility.Coordinate;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
@@ -47,25 +40,26 @@ public class TwoDimensionalTestSuite extends Application{
 	}
 	
 	private void update() {
-		
+		Player test = testScreen.getPlayer();
+		boolean[] collision = test.checkCollision(testScreen.getSprites());
 		boolean[] currentState = testScreen.getState();
 
-		//updating movement based on state of keys pressed and test for hitting wall boundaries
-		if(currentState[0]) {
-			testScreen.moveLeft();
-		}
-		
-		if(currentState[1]) {
-			testScreen.moveRight();
-		}
-		
-		if(currentState[2]) {
-			testScreen.moveUp();
-		}
-		
-		if(currentState[3]) {
-			testScreen.moveDown();
-		}
+		//updating movement based on state of keys pressed and test for hitting sprites
+				if(currentState[0] && collision[1]) {
+					testScreen.moveLeft();
+				}
+				
+				if(currentState[1] && collision[0]) {
+					testScreen.moveRight();
+				}
+				
+				if(currentState[2] && collision[3]) {
+					testScreen.moveUp();
+				}
+				
+				if(currentState[3] && collision[2]) {
+					testScreen.moveDown();
+				}
 		
 	}
 	
@@ -73,7 +67,6 @@ public class TwoDimensionalTestSuite extends Application{
 		Scene mainScene = new Scene(createContent());
 		
 		mainScene.setOnKeyPressed(e -> {
-			//TODO: Create booleans for capture, Handle in main update
 			switch(e.getCode()) {
 				case A:
 					testScreen.setMoveLeft(true);

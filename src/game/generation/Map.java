@@ -136,13 +136,13 @@ public class Map{
 	public ArrayList<MoveableSprite> getSprites(){
 		
 		// Creates a new ArrayList copies it
-		ArrayList<MoveableSprite> returnSprites = new ArrayList<>(sprites.size());
+		//ArrayList<MoveableSprite> returnSprites = new ArrayList<>(sprites.size());
 		
-		for(int index = 0; index < sprites.size(); index++) {
-			returnSprites.add(sprites.get(index));
-		}
+		//for(int index = 0; index < sprites.size(); index++) {
+		//	returnSprites.add(sprites.get(index));
+		//}
 		
-		return returnSprites;
+		return sprites;
 	}
 	
 	/**

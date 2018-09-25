@@ -1,5 +1,8 @@
 package game.ai;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -46,9 +49,9 @@ public abstract class Sprite extends ImageView{
 		
 		this.initialized = true;
 		
-		setTranslateX(x);
+		setX(x);
 		xValue = x;
-		setTranslateY(y);
+		setY(y);
 		yValue = y;
 	}
 	
@@ -57,35 +60,83 @@ public abstract class Sprite extends ImageView{
 	 */
 	@Override
 	public String toString() {
-		return "(" + getXValue() + ", " + getYValue() + ")";
+		return "(" + this.getTranslateX() + ", " + this.getTranslateY() + ")";
 	}
 	
 	/**
-	 * Gets the y position on screen 
-	 * 
-	 * @return Y value of the sprite
+	 * check collision with other sprites
+	 * @param sprites list of all sprites on the map that could be collided with
+	 * @return true if collision detected
 	 */
-	public double getYValue() {
-		return getTranslateY();
+	public boolean[] checkCollision(ArrayList<MoveableSprite> sprites) {	
+		boolean[] array = {true, true, true, true};
+		Iterator<MoveableSprite> currentSprites = sprites.iterator();
+		//Skip over map art
+		currentSprites.next();	
+		
+		//iterator through list of sprites and check for intersection
+		while(currentSprites.hasNext()) {
+			Sprite temp = currentSprites.next();
+			
+			if(this.intersects(temp.getBoundsInLocal()) && !this.equals(temp)) {
+				String side = this.checkCollisionSide(temp);
+				switch(side) {
+					case "left":
+						array[0] = false;
+						break;
+					case "right":
+						array[1] = false;
+						break;
+					case "top":
+						array[2] = false;
+						break;
+					case "bottom":
+						array[3] = false;
+						break;
+					default:
+						array[0] = true;
+						array[1] = true;
+						array[2] = true;
+						array[3] = true;
+					
+				}
+				
+				System.out.printf("Collision Detected: %s%n", temp.toString());
+				return array;
+			}
+		}
+		//return false if no intersection detected
+		return array;
 	}
 	
 	/**
-	 * Gets the x position on screen 
-	 * 
-	 * @return x value of the sprite
+	 * Checks the side of the collision
+	 * @param collision object collided with
+	 * @return String of what side collided with
 	 */
-	public double getXValue() {
-		return getTranslateX();
-	}
-	
-	/**
-	 * Checks if sprite is located on the map
-	 * 
-	 * @return Sprite on map
-	 */
-	public boolean isOnMap() {
-		//TODO: Implement Method	
-		return false;
+	public String checkCollisionSide(Sprite collision) {
+		//hit on right
+		if(Math.abs((collision.getX() + collision.getFitWidth()) - this.getX()) < 5) {
+			//System.out.println("Right");
+			return "right";
+		}
+		//hit on left
+		if(Math.abs(collision.getX() - (this.getX() + this.getFitWidth())) < 5) {
+			//System.out.println("Left");
+			return "left";
+		}
+		//hit on top
+		if(Math.abs(collision.getY() - (this.getY() + this.getFitHeight())) < 5) {
+			//System.out.println("Top");
+			return "top";
+		}
+		//hit on bottom
+		if(Math.abs((collision.getY() + collision.getFitHeight()) - this.getY()) < 5) {
+			//System.out.println("Bottom");
+			return "bottom";
+		}
+		
+		return "null";
 	}
 	
 	public boolean checkInitialization() {
