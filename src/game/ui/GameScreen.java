@@ -1,0 +1,185 @@
+package game.ui;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import game.ai.MoveableSprite;
+import game.generation.Map;
+import game.player.Player;
+import game.utility.Coordinate;
+import javafx.scene.layout.Pane;
+
+public class GameScreen extends Pane{
+	
+	// TODO Implement these better
+	//__________________________________________________________________________________________
+	int playerWidth = 50;
+	int playerHeight = 50;
+	//__________________________________________________________________________________________
+	
+	private Player currentPlayer;
+	private Map currentMap;
+	private boolean[] movementStates = {false, false, false, false};
+	
+	// TODO Implement these for real
+	private Coordinate screenSize;
+	HUD healthBar;
+	
+	public GameScreen(Coordinate givenScreenSize) {
+		currentMap = new Map("Default_Map");
+				
+		screenSize = givenScreenSize;
+		
+		healthBar = new HUD(screenSize.getY());
+		
+		
+		addSprites();
+		addPlayer();
+		getChildren().add(healthBar.getHUD());
+		
+	}
+	
+	/**
+	 * Add the player to the scene
+	 */
+	private void addPlayer() {
+		
+		Coordinate playerStartingLocation = currentMap.getPlayerStartingLocation();
+		
+		currentPlayer = new Player((screenSize.getX() / 2.0) - (playerWidth / 2.0), (screenSize.getY() / 2.0) - (playerHeight / 2.0), playerWidth, playerHeight);
+		// Adds the player to the pane
+		getChildren().add(currentPlayer);
+	}
+	
+	/**
+	 * Adds the sprites to the screen, except for the player
+	 */
+	private void addSprites() {
+		//ArrayList<MoveableSprite> tempHolder = currentMap.getSprites();
+		Iterator<MoveableSprite> spriteIterator = currentMap.getSprites().iterator();
+		
+		while(spriteIterator.hasNext()) {
+			getChildren().add(spriteIterator.next());
+		}
+		
+		
+	}
+	
+	/**
+	 * Constructs a map with sprites
+	 * @param sprites Array list filled with sprites to add to map
+	 */
+	public GameScreen(ArrayList<MoveableSprite> sprites, Player player, double gameHeight){
+		
+		/*
+		HUD healthBar = new HUD(gameHeight);
+		
+		for(int i = 0; i < sprites.size(); i ++) {
+			this.getChildren().add(sprites.get(i));
+			this.sprites = sprites;
+		}
+		currentPlayer = player;
+		this.getChildren().add(currentPlayer);
+		
+		this.getChildren().add(healthBar.getHUD());
+		*/
+	}
+	
+	/**
+	 * Setter for move left boolean
+	 * @param state to set boolean to
+	 * @return state of boolean
+	 */
+	public boolean setMoveLeft(boolean state) {
+		this.movementStates[0] = state;
+		return state;
+	}
+	
+	/**
+	 * Setter for move right boolean
+	 * @param state to set boolean to
+	 * @return state of boolean
+	 */
+	public boolean setMoveRight(boolean state) {
+		this.movementStates[1] = state;
+		return state;
+	}
+	
+	/**
+	 * Setter for move up boolean
+	 * @param state to set boolean to
+	 * @return state of boolean
+	 */
+	public boolean setMoveUp(boolean state) {
+		this.movementStates[2] = state;
+		return state;
+	}
+	
+	/**
+	 * Setter for move down boolean
+	 * @param state to set boolean to
+	 * @return state of boolean
+	 */
+	public boolean setMoveDown(boolean state) {
+		this.movementStates[3] = state;
+		return state;
+	}
+	
+	/**
+	 * Sets all movementStates of movement to false
+	 */
+	public void setAll(boolean[] states) {
+		this.movementStates[0] = states[0];
+		this.movementStates[1] = states[1];
+		this.movementStates[2] = states[2];
+		this.movementStates[3] = states[3];
+	}
+	
+	/**
+	 * 
+	 * @return Array of movementStates of movement (left, right, up, down)
+	 */
+	public boolean[] getState() {
+		return this.movementStates;
+	}
+	
+	/**
+	 * Calls move left on all of the sprites on the map making the player move right relative
+	 */
+	public void moveRight() {
+		currentMap.moveSpritesLeft();
+	}
+	
+	/**
+	 * Calls move right on all of the sprites on the map making the player move left relative
+	 */
+	public void moveLeft() {
+		currentMap.moveSpritesRight();
+	}
+	
+	/**
+	 * Calls move down on all of the sprites on the map making the player up right relative
+	 */
+	public void moveUp() {
+		currentMap.moveSpritesDown();
+	}
+	
+	/**
+	 * Calls move up on all of the sprites on the map making the player move down relative
+	 */
+	public void moveDown() {
+		currentMap.moveSpritesUp();
+	}
+	
+	/**
+	 * 
+	 * @return current player
+	 */
+	public Player getPlayer() {
+		return currentPlayer;
+	}
+	
+	public ArrayList<MoveableSprite> getSprites(){
+		return currentMap.getSprites();
+	}
+}

@@ -1,33 +1,31 @@
 package game.ui;
 
-import game.legacy.GameStats;
-import game.legacy.Mountain;
+import game.player.Player;
+import game.utility.Coordinate;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TwoDimensionalTestSuite extends Application{
 	
-	private Pane root = new Pane();
-	LightWorm test = new LightWorm(0, 0, 50, 50);
-
+	double screenWidth = 1000;
+	double screenHeight = 600;
+	
+	int playerWidth = 50;
+	int playerHeight = 50;
+	
+	GameScreen testScreen = new GameScreen(new Coordinate(screenWidth, screenHeight));
 	
 	/**
 	 * Creates the scene with content in it
 	 * 
-	 * @return pane with conent
+	 * @return pane with content
 	 */
-	private Parent createContent() {
-		
-		
+	private Parent createContent() {	
 		//create size and add test sprite
-		root.setPrefSize(600,  800);
-		root.getChildren().add(test);
-
+		testScreen.setPrefSize(screenWidth, screenHeight);
 		
 		AnimationTimer timer = new AnimationTimer(){
 			@Override
@@ -38,31 +36,30 @@ public class TwoDimensionalTestSuite extends Application{
 		
 		timer.start();
 		
-		return root;
+		return testScreen;
 	}
 	
 	private void update() {
-		boolean[] currentState = test.getState();
-		
-		System.out.printf("%f", test.getTranslateX());
-		System.out.printf(" %f%n" , test.getTranslateY());
-		
-		//updating movement based on state of keys pressed and test for hitting wall boundaries
-		if(currentState[0]) {
-			test.moveLeft(5);
-		}
-		
-		if(currentState[1] && test.getTranslateX() < (root.getWidth() - test.getFitWidth())) {
-			test.moveRight(5);
-		}
-		
-		if(currentState[2] && test.getTranslateY() > -10) {
-			test.moveUp(5);
-		}
-		
-		if(currentState[3] && test.getTranslateY() < (root.getHeight() - test.getFitHeight() + 14)) {
-			test.moveDown(5);
-		}
+		Player test = testScreen.getPlayer();
+		boolean[] collision = test.checkCollision(testScreen.getSprites());
+		boolean[] currentState = testScreen.getState();
+
+		//updating movement based on state of keys pressed and test for hitting sprites
+				if(currentState[0] && collision[1]) {
+					testScreen.moveLeft();
+				}
+				
+				if(currentState[1] && collision[0]) {
+					testScreen.moveRight();
+				}
+				
+				if(currentState[2] && collision[3]) {
+					testScreen.moveUp();
+				}
+				
+				if(currentState[3] && collision[2]) {
+					testScreen.moveDown();
+				}
 		
 	}
 	
@@ -70,19 +67,18 @@ public class TwoDimensionalTestSuite extends Application{
 		Scene mainScene = new Scene(createContent());
 		
 		mainScene.setOnKeyPressed(e -> {
-			//TODO: Create booleans for capture, Handle in main update
 			switch(e.getCode()) {
 				case A:
-					test.setMoveLeft(true);
+					testScreen.setMoveLeft(true);
 					break;
 				case S:
-					test.setMoveDown(true);
+					testScreen.setMoveDown(true);
 					break;
 				case D:
-					test.setMoveRight(true);
+					testScreen.setMoveRight(true);
 					break;
 				case W:
-					test.setMoveUp(true);
+					testScreen.setMoveUp(true);
 					break;
 				default:
 					break;
@@ -96,16 +92,16 @@ public class TwoDimensionalTestSuite extends Application{
 		mainScene.setOnKeyReleased(e ->{
 			switch(e.getCode()) {
 				case A:
-					test.setMoveLeft(false);
+					testScreen.setMoveLeft(false);
 					break;
 				case S:
-					test.setMoveDown(false);
+					testScreen.setMoveDown(false);
 					break;
 				case D:
-					test.setMoveRight(false);
+					testScreen.setMoveRight(false);
 					break;
 				case W:
-					test.setMoveUp(false);
+					testScreen.setMoveUp(false);
 					break;
 				default:
 					break;
@@ -118,6 +114,12 @@ public class TwoDimensionalTestSuite extends Application{
 	}
 	
 	public static void main(String[] args) {
+		
+		/*
+		new Map("Default_Map");
+		System.exit(0);
+		*/
+		
 		launch(args);
 	}
 

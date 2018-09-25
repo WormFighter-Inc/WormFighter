@@ -1,4 +1,4 @@
-package game.ui;
+package game.ai.worm;
 
 public class RangedWorm {
 

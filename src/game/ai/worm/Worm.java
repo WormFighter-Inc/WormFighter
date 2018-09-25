@@ -1,5 +1,6 @@
-package game.ui;
+package game.ai.worm;
 
+import game.ai.MoveableSprite;
 import javafx.scene.image.Image;
 
 public abstract class Worm extends MoveableSprite{

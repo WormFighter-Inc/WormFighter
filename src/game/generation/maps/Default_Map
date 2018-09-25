@@ -1,0 +1,8 @@
+player 		500		500	
+art			Test_Art.png
+mountain 	0		0
+mountain 	1000	728
+mountain 	1832	1500
+mountain 	1947	1000
+mountain 	100		100
+end
