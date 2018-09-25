@@ -7,6 +7,7 @@ import game.ai.MoveableSprite;
 import game.ai.worm.LightWorm;
 import game.generation.Map;
 import game.player.Player;
+import game.utility.Coordinate;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -21,23 +22,17 @@ public class TwoDimensionalTestSuite extends Application{
 	
 	int playerWidth = 50;
 	int playerHeight = 50;
-
-	LightWorm test = new LightWorm(0, 0, 50, 50);
-	LightWorm test2 = new LightWorm(100, 100, 50, 50);
-	MoveableSprite testArt = new MoveableSprite(0, 0, 3840, 2160, new Image("game/generation/maps/Test Art.png"));
 	
-	ArrayList<MoveableSprite> myArray = new ArrayList<MoveableSprite>(Arrays.asList(testArt, test, test2));
-	Map testMap = new Map(myArray, new Player((screenWidth / 2.0) - (playerWidth / 2.0), (screenHeight / 2.0) - (playerHeight / 2.0), playerWidth, playerHeight), screenHeight);
-	
+	GameScreen testScreen = new GameScreen(new Coordinate(screenWidth, screenHeight));
 	
 	/**
 	 * Creates the scene with content in it
 	 * 
-	 * @return pane with conent
+	 * @return pane with content
 	 */
 	private Parent createContent() {	
 		//create size and add test sprite
-		testMap.setPrefSize(screenWidth, screenHeight);
+		testScreen.setPrefSize(screenWidth, screenHeight);
 		
 		AnimationTimer timer = new AnimationTimer(){
 			@Override
@@ -48,28 +43,28 @@ public class TwoDimensionalTestSuite extends Application{
 		
 		timer.start();
 		
-		return testMap;
+		return testScreen;
 	}
 	
 	private void update() {
 		
-		boolean[] currentState = testMap.getState();
+		boolean[] currentState = testScreen.getState();
 
 		//updating movement based on state of keys pressed and test for hitting wall boundaries
 		if(currentState[0]) {
-			testMap.moveLeft();
+			testScreen.moveLeft();
 		}
 		
 		if(currentState[1]) {
-			testMap.moveRight();
+			testScreen.moveRight();
 		}
 		
 		if(currentState[2]) {
-			testMap.moveUp();
+			testScreen.moveUp();
 		}
 		
 		if(currentState[3]) {
-			testMap.moveDown();
+			testScreen.moveDown();
 		}
 		
 	}
@@ -81,16 +76,16 @@ public class TwoDimensionalTestSuite extends Application{
 			//TODO: Create booleans for capture, Handle in main update
 			switch(e.getCode()) {
 				case A:
-					testMap.setMoveLeft(true);
+					testScreen.setMoveLeft(true);
 					break;
 				case S:
-					testMap.setMoveDown(true);
+					testScreen.setMoveDown(true);
 					break;
 				case D:
-					testMap.setMoveRight(true);
+					testScreen.setMoveRight(true);
 					break;
 				case W:
-					testMap.setMoveUp(true);
+					testScreen.setMoveUp(true);
 					break;
 				default:
 					break;
@@ -104,16 +99,16 @@ public class TwoDimensionalTestSuite extends Application{
 		mainScene.setOnKeyReleased(e ->{
 			switch(e.getCode()) {
 				case A:
-					testMap.setMoveLeft(false);
+					testScreen.setMoveLeft(false);
 					break;
 				case S:
-					testMap.setMoveDown(false);
+					testScreen.setMoveDown(false);
 					break;
 				case D:
-					testMap.setMoveRight(false);
+					testScreen.setMoveRight(false);
 					break;
 				case W:
-					testMap.setMoveUp(false);
+					testScreen.setMoveUp(false);
 					break;
 				default:
 					break;

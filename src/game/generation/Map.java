@@ -6,21 +6,22 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import game.ai.MoveableSprite;
+import game.ai.Sprite;
+import game.ai.worm.LightWorm;
 import game.player.Player;
 import game.ui.HUD;
 import game.ui.Mountain;
 import game.utility.Coordinate;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
-public class Map extends Pane{
+public class Map{
 	
 	private ArrayList<MoveableSprite> sprites = new ArrayList<MoveableSprite>();
-	private Player currentPlayer;
-	private boolean[] movementStates = {false, false, false, false};
 	
 	// TODO Implement these for real
-	private Coordinate screenSize;
 	private Coordinate mapSize;
+	private Coordinate screenSize;
 	
 	// Used to read in a map from a file
 	InputStream mapFile;
@@ -38,31 +39,68 @@ public class Map extends Pane{
 		mapSize = new Coordinate(10000, 10000);
 		screenSize = new Coordinate(500, 500);
 		
-		mapFile = Map.class.getResourceAsStream("/game/maps/" + mapFileName);
+		mapFile = Map.class.getResourceAsStream("/game/generation/maps/" + mapFileName);
 		importMap();
 		
+		/*
 		System.out.println("Map relative: ");
 		printMapRelativeSprites();
 		System.out.println("\nScreen relative: ");
 		printScreenRelativeSprites();
+		*/
 	}
-
+	
 	/**
-	 * Constructs a map with sprites
-	 * @param sprites Array list filled with sprites to add to map
+	 * Gets the location of the player's starting position
+	 * 
+	 * @return A coordinate object representing the player's starting position
 	 */
-	public Map(ArrayList<MoveableSprite> sprites, Player player, double gameHeight){
+	public Coordinate getPlayerStartingLocation() {
+		return playerStartingPosition;
+	}
+	
+	/**
+	 * Calls move left on all of the sprites on the map making the player move right relative
+	 */
+	public void moveSpritesRight() {
+		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
 		
-		HUD healthBar = new HUD(gameHeight);
-		
-		for(int i = 0; i < sprites.size(); i ++) {
-			this.getChildren().add(sprites.get(i));
-			this.sprites = sprites;
+		while(spriteIterator.hasNext()) {
+			spriteIterator.next().moveRight(5);
 		}
-		currentPlayer = player;
-		this.getChildren().add(player);
+	}
+	
+	/**
+	 * Calls move right on all of the sprites on the map making the player move left relative
+	 */
+	public void moveSpritesLeft() {
+		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
 		
-		this.getChildren().add(healthBar.getHUD());
+		while(spriteIterator.hasNext()) {
+			spriteIterator.next().moveLeft(5);
+		}
+	}
+	
+	/**
+	 * Calls move down on all of the sprites on the map making the player up right relative
+	 */
+	public void moveSpritesUp() {
+		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
+		
+		while(spriteIterator.hasNext()) {
+			spriteIterator.next().moveUp(5);
+		}
+	}
+	
+	/**
+	 * Calls move up on all of the sprites on the map making the player move down relative
+	 */
+	public void moveSpritesDown() {
+		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
+		
+		while(spriteIterator.hasNext()) {
+			spriteIterator.next().moveDown(5);
+		}
 	}
 	
 	/**
@@ -83,112 +121,28 @@ public class Map extends Pane{
 	public boolean removeSprite(MoveableSprite targetSprite) {
 		if(!sprites.contains(targetSprite)) {
 			return false;
-		}else {
+		}
+		else {
 			sprites.remove(targetSprite);
 			return true;
 		}
 	}
 	
 	/**
-	 * Setter for move left boolean
-	 * @param state to set boolean to
-	 * @return state of boolean
-	 */
-	public boolean setMoveLeft(boolean state) {
-		this.movementStates[0] = state;
-		return state;
-	}
-	
-	/**
-	 * Setter for move right boolean
-	 * @param state to set boolean to
-	 * @return state of boolean
-	 */
-	public boolean setMoveRight(boolean state) {
-		this.movementStates[1] = state;
-		return state;
-	}
-	
-	/**
-	 * Setter for move up boolean
-	 * @param state to set boolean to
-	 * @return state of boolean
-	 */
-	public boolean setMoveUp(boolean state) {
-		this.movementStates[2] = state;
-		return state;
-	}
-	
-	/**
-	 * Setter for move down boolean
-	 * @param state to set boolean to
-	 * @return state of boolean
-	 */
-	public boolean setMoveDown(boolean state) {
-		this.movementStates[3] = state;
-		return state;
-	}
-	
-	/**
-	 * Sets all movementStates of movement to false
-	 */
-	public void setAllFalse() {
-		this.movementStates[0] = false;
-		this.movementStates[1] = false;
-		this.movementStates[2] = false;
-		this.movementStates[3] = false;
-	}
-	
-	/**
+	 * Gets the ArrayList of all the MoveableSprites on the map. 
 	 * 
-	 * @return Array of movementStates of movement (left, right, up, down)
+	 * @return ArrayList of all the MoveableSprites on the map
 	 */
-	public boolean[] getState() {
-		return this.movementStates;
-	}
-	
-	/**
-	 * Calls move left on all of the sprites on the map making the player move right relative
-	 */
-	public void moveRight() {
-		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
+	public ArrayList<MoveableSprite> getSprites(){
 		
-		while(spriteIterator.hasNext()) {
-			spriteIterator.next().moveLeft(5);
-		}
-	}
-	
-	/**
-	 * Calls move right on all of the sprites on the map making the player move left relative
-	 */
-	public void moveLeft() {
-		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
+		// Creates a new ArrayList copies it
+		ArrayList<MoveableSprite> returnSprites = new ArrayList<>(sprites.size());
 		
-		while(spriteIterator.hasNext()) {
-			spriteIterator.next().moveRight(5);
+		for(int index = 0; index < sprites.size(); index++) {
+			returnSprites.add(sprites.get(index));
 		}
-	}
-	
-	/**
-	 * Calls move down on all of the sprites on the map making the player up right relative
-	 */
-	public void moveUp() {
-		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
 		
-		while(spriteIterator.hasNext()) {
-			spriteIterator.next().moveDown(5);
-		}
-	}
-	
-	/**
-	 * Calls move up on all of the sprites on the map making the player move down relative
-	 */
-	public void moveDown() {
-		Iterator<MoveableSprite> spriteIterator = sprites.iterator();
-		
-		while(spriteIterator.hasNext()) {
-			spriteIterator.next().moveUp(5);
-		}
+		return returnSprites;
 	}
 	
 	/**
@@ -197,8 +151,8 @@ public class Map extends Pane{
 	 * @param mapRelative A map relative coordinate to be converted 
 	 * @return The screen relative coordinate
 	 */
-	public Coordinate mapToScreenConversion(Coordinate mapRelative) {
-		return mapToScreenConversion(mapRelative, playerStartingPosition, screenSize);
+	private Coordinate mapToScreen(Coordinate mapRelative) {
+		return mapToScreen(mapRelative, playerStartingPosition, screenSize);
 	}
 	
 	/**
@@ -209,7 +163,7 @@ public class Map extends Pane{
 	 * @param screenSize A coordinate representing the size of the screen
 	 * @return The screen relative coordinate
 	 */
-	public Coordinate mapToScreenConversion(Coordinate mapRelative, Coordinate playerStarting, Coordinate screenSize) {
+	private Coordinate mapToScreen(Coordinate mapRelative, Coordinate playerStarting, Coordinate screenSize) {
 	
 		double screenRelativeX = mapRelative.getX() - playerStarting.getX() - (screenSize.getX() / 2.0);
 		double screenRelativeY = mapRelative.getY() - playerStarting.getY() - (screenSize.getY() / 2.0);
@@ -240,44 +194,43 @@ public class Map extends Pane{
 				if(type.equals("end")) {
 					return;
 				}
-				
-				// Get the x and y value from the file
-				double objectX = mapInput.nextDouble() * 1.0;
-				double objectY = mapInput.nextDouble() * 1.0;
-				
-				// Test for coordinates being out of bounds
-				if(objectX < 0 || objectY < 0) {
-					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is negative");
+				// Checks for map art
+				else if(type.equals("art")) {
+					Coordinate origin = mapToScreen(new Coordinate(0, 0));
+					
+					// Gets the background image
+					sprites.add(new MoveableSprite(origin.getX(), origin.getY(), 3840, 2160, new Image("/game/generation/maps/" + mapInput.next())));
 				}
-				else if(objectX > mapSize.getX() || objectY > mapSize.getY()) {
-					System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is greater than the max value");
-				}
-				// Coordinates are within the bounds
 				else {
+					// Get the x and y value from the file
+					Coordinate objectLocation = new Coordinate(mapInput.nextDouble() * 1.0, mapInput.nextDouble() * 1.0);
 					
-					// Determine which type of object is being read in
-					switch(type) {
-					
-						case "player":
-							// Set the player's starting position
-							playerStartingPosition = new Coordinate(objectX, objectY);
-							break;
-					
-						case "mountain":
-							// Add a mountain sprite
-							sprites.add(new Mountain(objectX, objectY));
-							break;
-							
-						case "water":
-							// Add a water sprite
-							// TODO Water class not created or implemented yet
-							//sprites.add(new Water(objectX, objectY));
-							break;
-							
-						default:
-							// Unexpected type - Error
-							System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);
-							break;
+					// Determining if the object is valid and creating it
+					if(isInBounds(objectLocation, lineIndex)) {
+						
+						// Determine which type of object is being read in
+						switch(type) {								
+							case "player":
+								// Set the player's starting position
+								playerStartingPosition = new Coordinate(objectLocation.getX(), objectLocation.getY());
+								break;
+						
+							case "mountain":
+								// Add a mountain sprite
+								sprites.add(new Mountain(100, 100, mapToScreen(objectLocation)));
+								break;
+								
+							case "water":
+								// Add a water sprite
+								// TODO Water class not created or implemented yet
+								//sprites.add(new Water(objectLocation));
+								break;
+								
+							default:
+								// Unexpected type - Error
+								System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);
+								break;
+						}
 					}
 				}
 				// Move cursor to the next line
@@ -294,6 +247,28 @@ public class Map extends Pane{
 	}
 	
 	/**
+	 * Tests for coordinates being in the bounds of the map
+	 * 
+	 * @param objectLocation Coordinate object holding the location of the object to be tested
+	 * @param lineIndex Line the object is on in the map file
+	 * @return true if the coordinate is in the bounds of the map, false if the coordinate is out of the bounds of the map
+	 */
+	private boolean isInBounds(Coordinate objectLocation, int lineIndex) {
+		
+		// Test for coordinates being out of bounds
+		if(objectLocation.getX() < 0 || objectLocation.getY() < 0) {
+			System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is negative");
+			return false;
+		}
+		else if(objectLocation.getX() > mapSize.getX() || objectLocation.getY() > mapSize.getY()) {
+			System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is greater than the max value");
+			return false;
+		}
+		// Object is in bounds
+		return true;
+	}
+	
+	/**
 	 * Debugging method. 
 	 * Converts every sprite to screen relative, then 
 	 * calls the toString method for every sprite in the array sprites. 
@@ -301,14 +276,14 @@ public class Map extends Pane{
 	 */
 	private void printScreenRelativeSprites() {
 		
-		Coordinate screenRelativePlayer = mapToScreenConversion(playerStartingPosition);
+		Coordinate screenRelativePlayer = mapToScreen(playerStartingPosition);
 		
 		System.out.printf("(%5.0f, %5.0f)\tPlayer\n", screenRelativePlayer.getX(), screenRelativePlayer.getY());
 		
 		// Loop through sprites and prints the string from to String
 		for(int i = 0; i < sprites.size(); i++) {
 			
-			System.out.println(mapToScreenConversion(new Coordinate(sprites.get(i).getXValue(), sprites.get(i).getYValue())).toString());
+			System.out.println(mapToScreen(new Coordinate(sprites.get(i).getX(), sprites.get(i).getY())).toString());
 		}
 	}
 	

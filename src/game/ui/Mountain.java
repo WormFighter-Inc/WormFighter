@@ -1,11 +1,16 @@
 package game.ui;
 
 import game.ai.ObjectSprite;
+import game.utility.Coordinate;
 import javafx.scene.image.Image;
 
 public class Mountain extends ObjectSprite{
 
 	private static Image mountainSprite = new Image("/game/sprites/mountain/mountain.png");
+	
+	public Mountain(int spriteWidth, int spriteHeight, Coordinate point) {
+		super(point.getX(), point.getY(), spriteWidth, spriteHeight, mountainSprite);
+	}
 	
 	public Mountain(double x, double y) {
 		super(x, y, mountainSprite);
@@ -18,6 +23,6 @@ public class Mountain extends ObjectSprite{
 	 */
 	@Override
 	public String toString() {
-		return String.format("(%5.0f, ", this.getXValue()) + String.format("%5.0f)\tMountain", this.getYValue());
+		return String.format("(%5.0f, ", this.getTranslateX()) + String.format("%5.0f)\tMountain", this.getTranslateY());
 	}
 }
