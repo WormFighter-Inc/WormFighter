@@ -23,4 +23,14 @@ public class Coordinate extends Point2D{
 	public String toString() {
 		return String.format("(%5.0f, ", this.getX()) + String.format("%5.0f)", this.getY());
 	}
+	
+	public int getIntX() {
+		return (int)getX();
+	}
+	
+	public int getIntY() {
+		return (int)getY();
+	}
+
+
 }

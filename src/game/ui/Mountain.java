@@ -23,6 +23,6 @@ public class Mountain extends ObjectSprite{
 	 */
 	@Override
 	public String toString() {
-		return String.format("(%5.0f, ", this.getTranslateX()) + String.format("%5.0f)\tMountain", this.getTranslateY());
+		return String.format("(%5.0f, ", this.getX()) + String.format("%5.0f)\tMountain", this.getY());
 	}
 }

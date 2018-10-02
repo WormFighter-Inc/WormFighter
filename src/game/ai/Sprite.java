@@ -102,7 +102,6 @@ public abstract class Sprite extends ImageView{
 				}
 				
 				System.out.printf("Collision Detected: %s%n", temp.toString());
-				return array;
 			}
 		}
 		//return false if no intersection detected

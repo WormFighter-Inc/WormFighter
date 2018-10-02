@@ -17,21 +17,24 @@ public class GameScreen extends Pane{
 	int playerHeight = 50;
 	//__________________________________________________________________________________________
 	
-	private Player currentPlayer;
-	private Map currentMap;
 	private boolean[] movementStates = {false, false, false, false};
 	
 	// TODO Implement these for real
 	private Coordinate screenSize;
-	HUD healthBar;
+	private HUD healthBar;
+	private Player currentPlayer;
+	private Map currentMap;
 	
+	/**
+	 * 
+	 * @param givenScreenSize 
+	 */
 	public GameScreen(Coordinate givenScreenSize) {
 		currentMap = new Map("Default_Map");
 				
 		screenSize = givenScreenSize;
 		
 		healthBar = new HUD(screenSize.getY());
-		
 		
 		addSprites();
 		addPlayer();
@@ -44,8 +47,7 @@ public class GameScreen extends Pane{
 	 */
 	private void addPlayer() {
 		
-		Coordinate playerStartingLocation = currentMap.getPlayerStartingLocation();
-		
+		// Places the player in the center of the screen
 		currentPlayer = new Player((screenSize.getX() / 2.0) - (playerWidth / 2.0), (screenSize.getY() / 2.0) - (playerHeight / 2.0), playerWidth, playerHeight);
 		// Adds the player to the pane
 		getChildren().add(currentPlayer);
@@ -61,28 +63,6 @@ public class GameScreen extends Pane{
 		while(spriteIterator.hasNext()) {
 			getChildren().add(spriteIterator.next());
 		}
-		
-		
-	}
-	
-	/**
-	 * Constructs a map with sprites
-	 * @param sprites Array list filled with sprites to add to map
-	 */
-	public GameScreen(ArrayList<MoveableSprite> sprites, Player player, double gameHeight){
-		
-		/*
-		HUD healthBar = new HUD(gameHeight);
-		
-		for(int i = 0; i < sprites.size(); i ++) {
-			this.getChildren().add(sprites.get(i));
-			this.sprites = sprites;
-		}
-		currentPlayer = player;
-		this.getChildren().add(currentPlayer);
-		
-		this.getChildren().add(healthBar.getHUD());
-		*/
 	}
 	
 	/**

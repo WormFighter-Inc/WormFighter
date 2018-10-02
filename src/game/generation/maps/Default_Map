@@ -1,8 +1,21 @@
 player 		500		500	
-art			Test_Art.png
-mountain 	0		0
+art			Test_Art.png	3840	2160
 mountain 	1000	728
 mountain 	1832	1500
 mountain 	1947	1000
-mountain 	100		100
+mountain 	100		100		Comments can be written here because in import map, data is read in with .next .nextDouble .nextDouble .nextLine (the next line skips over this text)
+mountain	921		5
+mountain	1697	1236
+mountain	12		2060
+mountain	132		456
+mountain	72		1204
+mountain	2034 	444
+mountain	1060	2000
+mountain	55		1536
+mountain	1900	555
+mountain	123		2060
+mountain 	0		0
+mountain	3740	0
+mountain	0		2060
+mountain	3740	2060
 end

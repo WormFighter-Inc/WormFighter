@@ -6,14 +6,9 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import game.ai.MoveableSprite;
-import game.ai.Sprite;
-import game.ai.worm.LightWorm;
-import game.player.Player;
-import game.ui.HUD;
 import game.ui.Mountain;
 import game.utility.Coordinate;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 
 public class Map{
 	
@@ -36,7 +31,7 @@ public class Map{
 	 * @param mapFileName Name of the file which holds the map data
 	 */
 	public Map(String mapFileName) {
-		mapSize = new Coordinate(10000, 10000);
+		mapSize = new Coordinate(3840, 2160);
 		screenSize = new Coordinate(500, 500);
 		
 		mapFile = Map.class.getResourceAsStream("/game/generation/maps/" + mapFileName);
@@ -177,6 +172,13 @@ public class Map{
 	 * @param mapName Name of the map file to read in
 	 */
 	public void importMap() {
+		
+		// TODO Implement these
+		//_______________________________________________________________________________________________
+		// Used to store the size of the sprite X x Y
+		Coordinate spriteSize = new Coordinate(100, 100);
+		//_______________________________________________________________________________________________
+		
 		// Keeps track of the line - used to report errors
 		// Starts at one because the lines are not zero indexed
 		int lineIndex = 1;
@@ -197,16 +199,18 @@ public class Map{
 				// Checks for map art
 				else if(type.equals("art")) {
 					Coordinate origin = mapToScreen(new Coordinate(0, 0));
+					Image mapImage = new Image("/game/generation/maps/" + mapInput.next());
+					Coordinate mapSize = new Coordinate(mapInput.nextDouble(), mapInput.nextDouble());
 					
 					// Gets the background image
-					sprites.add(new MoveableSprite(origin.getX(), origin.getY(), 3840, 2160, new Image("/game/generation/maps/" + mapInput.next())));
+					sprites.add(new MoveableSprite(origin.getX(), origin.getY(), mapSize.getIntX(),  mapSize.getIntY(), mapImage));
 				}
 				else {
 					// Get the x and y value from the file
 					Coordinate objectLocation = new Coordinate(mapInput.nextDouble() * 1.0, mapInput.nextDouble() * 1.0);
 					
 					// Determining if the object is valid and creating it
-					if(isInBounds(objectLocation, lineIndex)) {
+					if(isInBounds(objectLocation, lineIndex, spriteSize)) {
 						
 						// Determine which type of object is being read in
 						switch(type) {								
@@ -217,13 +221,13 @@ public class Map{
 						
 							case "mountain":
 								// Add a mountain sprite
-								sprites.add(new Mountain(100, 100, mapToScreen(objectLocation)));
+								sprites.add(new Mountain(spriteSize.getIntX(), spriteSize.getIntY(), mapToScreen(objectLocation)));
 								break;
 								
 							case "water":
 								// Add a water sprite
 								// TODO Water class not created or implemented yet
-								//sprites.add(new Water(objectLocation));
+								//sprites.add(new Water(spriteWidth, spriteHeight, mapToScreen(objectLocation));
 								break;
 								
 							default:
@@ -253,14 +257,14 @@ public class Map{
 	 * @param lineIndex Line the object is on in the map file
 	 * @return true if the coordinate is in the bounds of the map, false if the coordinate is out of the bounds of the map
 	 */
-	private boolean isInBounds(Coordinate objectLocation, int lineIndex) {
+	private boolean isInBounds(Coordinate objectLocation, int lineIndex, Coordinate spriteSize) {
 		
 		// Test for coordinates being out of bounds
 		if(objectLocation.getX() < 0 || objectLocation.getY() < 0) {
 			System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is negative");
 			return false;
 		}
-		else if(objectLocation.getX() > mapSize.getX() || objectLocation.getY() > mapSize.getY()) {
+		else if(objectLocation.getX() > mapSize.getX() - spriteSize.getX() || objectLocation.getY() > mapSize.getY() - spriteSize.getY()) {
 			System.out.println("Map Creation Error: Coordinate error at line " + lineIndex + "\n\tX or Y coordinate is greater than the max value");
 			return false;
 		}
@@ -274,6 +278,7 @@ public class Map{
 	 * calls the toString method for every sprite in the array sprites. 
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private void printScreenRelativeSprites() {
 		
 		Coordinate screenRelativePlayer = mapToScreen(playerStartingPosition);
@@ -292,6 +297,7 @@ public class Map{
 	 * Calls the toString method for every sprite in the array sprites. 
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private void printMapRelativeSprites() {
 		
 		System.out.printf("(%5.0f, %5.0f)\tPlayer\n", playerStartingPosition.getX(), playerStartingPosition.getY());
