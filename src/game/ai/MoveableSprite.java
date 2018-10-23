@@ -154,6 +154,7 @@ public class MoveableSprite extends Sprite{
 	public void moveUp(double distance, Image spriteArt) {
 		setImage(spriteArt);
 		setY(getY()- distance);
+		
 	}
 
 	/**

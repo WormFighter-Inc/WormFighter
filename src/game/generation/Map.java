@@ -9,10 +9,12 @@ import game.ai.MoveableSprite;
 import game.ui.Mountain;
 import game.utility.Coordinate;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Polyline;
 
 public class Map{
 	
 	private ArrayList<MoveableSprite> sprites = new ArrayList<MoveableSprite>();
+	private ArrayList<Polyline> bounds = new ArrayList<Polyline>();
 	
 	// TODO Implement these for real
 	private Coordinate mapSize;
@@ -63,6 +65,13 @@ public class Map{
 		while(spriteIterator.hasNext()) {
 			spriteIterator.next().moveRight(5);
 		}
+		
+		Iterator<Polyline> boundIterator = bounds.iterator();
+		
+		while(boundIterator.hasNext()) {
+			Polyline temp = boundIterator.next();
+			temp.setTranslateX(temp.getTranslateX() + 5);
+		}
 	}
 	
 	/**
@@ -73,6 +82,13 @@ public class Map{
 		
 		while(spriteIterator.hasNext()) {
 			spriteIterator.next().moveLeft(5);
+		}
+		
+		Iterator<Polyline> boundIterator = bounds.iterator();
+		
+		while(boundIterator.hasNext()) {
+			Polyline temp = boundIterator.next();
+			temp.setTranslateX(temp.getTranslateX() - 5);
 		}
 	}
 	
@@ -85,6 +101,13 @@ public class Map{
 		while(spriteIterator.hasNext()) {
 			spriteIterator.next().moveUp(5);
 		}
+		
+		Iterator<Polyline> boundIterator = bounds.iterator();
+		
+		while(boundIterator.hasNext()) {
+			Polyline temp = boundIterator.next();
+			temp.setTranslateY(temp.getTranslateY() - 5);
+		}
 	}
 	
 	/**
@@ -95,6 +118,13 @@ public class Map{
 		
 		while(spriteIterator.hasNext()) {
 			spriteIterator.next().moveDown(5);
+		}
+		
+		Iterator<Polyline> boundIterator = bounds.iterator();
+		
+		while(boundIterator.hasNext()) {
+			Polyline temp = boundIterator.next();
+			temp.setTranslateY(temp.getTranslateY() + 5);
 		}
 	}
 	
@@ -121,6 +151,15 @@ public class Map{
 			sprites.remove(targetSprite);
 			return true;
 		}
+	}
+	
+	/**
+	 * Gets the ArrayList of the polylines on the map
+	 * 
+	 * @return ArrayList of bounds
+	 */
+	public ArrayList<Polyline> getBounds(){
+		return bounds;
 	}
 	
 	/**
@@ -205,6 +244,24 @@ public class Map{
 					// Gets the background image
 					sprites.add(new MoveableSprite(origin.getX(), origin.getY(), mapSize.getIntX(),  mapSize.getIntY(), mapImage));
 				}
+				//Checks for polyline
+				else if(type.equals("poly")) {
+					//first entry is number of segments followed by segment coordinants
+					int numberOfPoints = mapInput.nextInt();
+					double points[] = new double[numberOfPoints*2];
+					for(int i = 0; i < numberOfPoints*2; i += 2) {
+						Coordinate temp = new Coordinate(mapInput.nextDouble(), mapInput.nextDouble());
+						//convert to screen perspective coordinates
+						temp = mapToScreen(temp);
+						points[i] = temp.getX();
+						points[i+1] = temp.getY();
+					}
+					//Gets the polyline
+					Polyline temp = new Polyline(points);
+					temp.setStrokeWidth(10);
+					bounds.add(temp);
+				}
+				
 				else {
 					// Get the x and y value from the file
 					Coordinate objectLocation = new Coordinate(mapInput.nextDouble() * 1.0, mapInput.nextDouble() * 1.0);
@@ -229,7 +286,7 @@ public class Map{
 								// TODO Water class not created or implemented yet
 								//sprites.add(new Water(spriteWidth, spriteHeight, mapToScreen(objectLocation));
 								break;
-								
+					
 							default:
 								// Unexpected type - Error
 								System.out.println("Map Creation Error: Incorrect label at line " + lineIndex);

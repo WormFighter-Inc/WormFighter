@@ -41,23 +41,23 @@ public class TwoDimensionalTestSuite extends Application{
 	
 	private void update() {
 		Player test = testScreen.getPlayer();
-		boolean[] collision = test.checkCollision(testScreen.getSprites());
+		boolean[] collision = test.checkCollisionSprite(testScreen.getSprites());
 		boolean[] currentState = testScreen.getState();
 
 		//updating movement based on state of keys pressed and test for hitting sprites
-				if(currentState[0] && collision[1]) {
+				if(currentState[0]) {
 					testScreen.moveLeft();
 				}
 				
-				if(currentState[1] && collision[0]) {
+				if(currentState[1]) {
 					testScreen.moveRight();
 				}
 				
-				if(currentState[2] && collision[3]) {
+				if(currentState[2]) {
 					testScreen.moveUp();
 				}
 				
-				if(currentState[3] && collision[2]) {
+				if(currentState[3]) {
 					testScreen.moveDown();
 				}
 		

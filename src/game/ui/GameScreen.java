@@ -8,6 +8,7 @@ import game.generation.Map;
 import game.player.Player;
 import game.utility.Coordinate;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polyline;
 
 public class GameScreen extends Pane{
 	
@@ -62,6 +63,12 @@ public class GameScreen extends Pane{
 		
 		while(spriteIterator.hasNext()) {
 			getChildren().add(spriteIterator.next());
+		}
+		
+		Iterator<Polyline> boundIterator = currentMap.getBounds().iterator();
+		
+		while(boundIterator.hasNext()) {
+			getChildren().add(boundIterator.next());
 		}
 	}
 	
@@ -128,6 +135,9 @@ public class GameScreen extends Pane{
 	 */
 	public void moveRight() {
 		currentMap.moveSpritesLeft();
+		if(currentPlayer.checkCollisionPolyline(currentMap.getBounds())) {
+			currentMap.moveSpritesRight();
+		}
 	}
 	
 	/**

@@ -5,12 +5,11 @@ import java.util.Iterator;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Polyline;
 
 public abstract class Sprite extends ImageView{
 	//Sprite variables for type and alive status
 	private boolean initialized = false;
-	private double xValue;
-	private double yValue;
 	
 	/**
 	 * Instantiates Sprite with Image at Pos 0, 0, with width 20, height 20
@@ -40,6 +39,7 @@ public abstract class Sprite extends ImageView{
 	 * @param image File to be displayed on screen
 	 */
 	public Sprite(double x, double y, int spriteWidth, int spriteHeight, Image image){
+		
 		//creates rectangle from specified parameters
 		super(image);
 		
@@ -50,9 +50,7 @@ public abstract class Sprite extends ImageView{
 		this.initialized = true;
 		
 		setX(x);
-		xValue = x;
 		setY(y);
-		yValue = y;
 	}
 	
 	/**
@@ -63,23 +61,41 @@ public abstract class Sprite extends ImageView{
 		return "(" + this.getTranslateX() + ", " + this.getTranslateY() + ")";
 	}
 	
+	public boolean checkCollisionPolyline(ArrayList<Polyline> outlines) {
+		boolean collision = false;
+		Iterator<Polyline> mapOutlines = outlines.iterator();
+		
+		while(mapOutlines.hasNext()) {
+			Polyline temp = mapOutlines.next();
+			if(temp.contains(this.getTranslateX(), this.getTranslateY())) {
+				System.out.printf("Polyline Collision Detected%n");
+				collision = true;
+			}
+		}	
+		return collision;
+	}
+	
 	/**
 	 * check collision with other sprites
 	 * @param sprites list of all sprites on the map that could be collided with
 	 * @return true if collision detected
 	 */
-	public boolean[] checkCollision(ArrayList<MoveableSprite> sprites) {	
+	public boolean[] checkCollisionSprite(ArrayList<MoveableSprite> sprites) {	
 		boolean[] array = {true, true, true, true};
 		Iterator<MoveableSprite> currentSprites = sprites.iterator();
 		//Skip over map art
 		currentSprites.next();	
+		
+		//Map variables to check collision
+		boolean map = true;
 		
 		//iterator through list of sprites and check for intersection
 		while(currentSprites.hasNext()) {
 			Sprite temp = currentSprites.next();
 			
 			if(this.intersects(temp.getBoundsInLocal()) && !this.equals(temp)) {
-				String side = this.checkCollisionSide(temp);
+				String side = this.checkCollisionSide(temp, map);
+				System.out.printf("Collision Detected: %s%n", temp.toString());
 				switch(side) {
 					case "left":
 						array[0] = false;
@@ -98,40 +114,37 @@ public abstract class Sprite extends ImageView{
 						array[1] = true;
 						array[2] = true;
 						array[3] = true;
-					
+						break;
 				}
-				
-				System.out.printf("Collision Detected: %s%n", temp.toString());
+				map = false;
 			}
 		}
 		//return false if no intersection detected
 		return array;
 	}
 	
+	
 	/**
 	 * Checks the side of the collision
 	 * @param collision object collided with
 	 * @return String of what side collided with
 	 */
-	public String checkCollisionSide(Sprite collision) {
+	private String checkCollisionSide(Sprite collision, Boolean map) {
+		//Non map collisions
 		//hit on right
 		if(Math.abs((collision.getX() + collision.getFitWidth()) - this.getX()) < 5) {
-			//System.out.println("Right");
 			return "right";
 		}
 		//hit on left
 		if(Math.abs(collision.getX() - (this.getX() + this.getFitWidth())) < 5) {
-			//System.out.println("Left");
 			return "left";
 		}
 		//hit on top
 		if(Math.abs(collision.getY() - (this.getY() + this.getFitHeight())) < 5) {
-			//System.out.println("Top");
 			return "top";
 		}
 		//hit on bottom
 		if(Math.abs((collision.getY() + collision.getFitHeight()) - this.getY()) < 5) {
-			//System.out.println("Bottom");
 			return "bottom";
 		}
 		
